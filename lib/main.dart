@@ -43,11 +43,11 @@ class _CurrencyConverterAppState extends State<CurrencyConverterApp> {
 
   final Map<String, double> _hardcodedRates = {
     'USD': 1.0,
-    'EUR': 0.93,
-    'GBP': 0.79,
-    'JPY': 149.50,
-    'CAD': 1.36,
-    'AUD': 1.53,
+    'EUR': 0.56,
+    'GBP': 0.49,
+    'JPY': 156.92,
+    'CAD': 1.41,
+    'AUD': 1.55,
     'NEP': 92.48,
   };
 
@@ -63,7 +63,7 @@ class _CurrencyConverterAppState extends State<CurrencyConverterApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Currency Converter - Task 1'),
+        title: Text('Currency Converter '),
         centerTitle: true,
       ),
       body: Padding(
