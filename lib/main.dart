@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// Stateful widget for the currency converter screen
 class CurrencyConverterApp extends StatefulWidget {
   @override
   _CurrencyConverterAppState createState() => _CurrencyConverterAppState();
@@ -53,9 +52,9 @@ class _CurrencyConverterAppState extends State<CurrencyConverterApp> {
   };
 
   void _convertCurrency() {
-    double fromRate = _hardcodedRates[_fromCurrency]!;
-    double toRate = _hardcodedRates[_toCurrency]!;
     setState(() {
+      double fromRate = _hardcodedRates[_fromCurrency]!;
+      double toRate = _hardcodedRates[_toCurrency]!;
       _result = (_inputAmount / fromRate) * toRate;
     });
   }
@@ -81,8 +80,10 @@ class _CurrencyConverterAppState extends State<CurrencyConverterApp> {
               ),
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               onChanged: (value) {
-                _inputAmount = double.tryParse(value) ?? 0.0;
-                _convertCurrency();
+                setState(() {
+                  _inputAmount = double.tryParse(value) ?? 0.0;
+                  _convertCurrency();
+                });
               },
             ),
             SizedBox(height: 20),
@@ -101,8 +102,10 @@ class _CurrencyConverterAppState extends State<CurrencyConverterApp> {
                 );
               }).toList(),
               onChanged: (value) {
-                _fromCurrency = value!;
-                _convertCurrency();
+                setState(() {
+                  _fromCurrency = value!;
+                  _convertCurrency();
+                });
               },
             ),
             SizedBox(height: 20),
@@ -121,17 +124,60 @@ class _CurrencyConverterAppState extends State<CurrencyConverterApp> {
                 );
               }).toList(),
               onChanged: (value) {
-                _toCurrency = value!;
-                _convertCurrency();
+                setState(() {
+                  _toCurrency = value!;
+                  _convertCurrency();
+                });
               },
             ),
             SizedBox(height: 30),
 
-            // Simple result text
-            Text(
-              'Result: ${_result.toStringAsFixed(2)} $_toCurrency',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
+            // Styled converted amount container
+            Container(
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.blue.shade100,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.blue, width: 2),
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    'Converted Amount',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.blue.shade900,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    '${_result.toStringAsFixed(2)} $_toCurrency',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue.shade900,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 20),
+
+            // Exchange rate info container
+            Container(
+              padding: EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                'Exchange Rate: 1 $_fromCurrency = '
+                '${(_hardcodedRates[_toCurrency]! / _hardcodedRates[_fromCurrency]!).toStringAsFixed(4)} '
+                '$_toCurrency',
+                style: TextStyle(fontSize: 14),
+                textAlign: TextAlign.center,
+              ),
             ),
           ],
         ),
